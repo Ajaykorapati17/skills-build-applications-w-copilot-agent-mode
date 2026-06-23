@@ -7,7 +7,7 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchList('users')
+    fetchList('/api/users', 'users')
       .then(setUsers)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

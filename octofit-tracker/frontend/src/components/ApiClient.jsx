@@ -10,11 +10,15 @@ const getApiHost = () => {
 
 const parseListResponse = async (response, rootKey) => {
   const payload = await response.json();
-  const data = payload?.[rootKey] ?? payload;
+  const data = rootKey ? payload?.[rootKey] ?? payload : payload;
   if (!data) {
     return [];
   }
-  return Array.isArray(data) ? data : Array.isArray(data.items) ? data.items : [];
+  return Array.isArray(data)
+    ? data
+    : Array.isArray(data.items)
+    ? data.items
+    : [];
 };
 
 export const apiBaseUrl = getApiHost();
@@ -26,12 +30,19 @@ export const endpoints = {
   workouts: `${apiBaseUrl}/api/workouts/`,
 };
 
-export const fetchList = async (key) => {
-  const response = await fetch(endpoints[key]);
-  if (!response.ok) {
-    throw new Error(`Unable to fetch ${key}: ${response.statusText}`);
+export const fetchList = async (endpointOrKey, rootKey) => {
+  let url = endpointOrKey;
+  if (typeof endpointOrKey === 'string' && endpointOrKey.startsWith('/')) {
+    url = `${apiBaseUrl}${endpointOrKey}`;
+  } else if (endpoints[endpointOrKey]) {
+    url = endpoints[endpointOrKey];
   }
-  return parseListResponse(response, key);
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Unable to fetch ${rootKey || endpointOrKey}: ${response.statusText}`);
+  }
+  return parseListResponse(response, rootKey);
 };
 
 export const getNotes = () => {
