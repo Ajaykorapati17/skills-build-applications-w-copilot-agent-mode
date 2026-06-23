@@ -5,7 +5,11 @@ const Teams = () => {
   const [teams, setTeams] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const endpoint = '/api/teams/';
+  const endpoint =
+    typeof import.meta.env.VITE_CODESPACE_NAME === 'string' &&
+    import.meta.env.VITE_CODESPACE_NAME.trim().length > 0
+      ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/teams/`
+      : '/api/teams/';
 
   useEffect(() => {
     fetchList(endpoint, 'teams')

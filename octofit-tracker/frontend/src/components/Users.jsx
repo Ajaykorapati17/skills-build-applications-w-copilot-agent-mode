@@ -5,7 +5,11 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const endpoint = '/api/users/';
+  const endpoint =
+    typeof import.meta.env.VITE_CODESPACE_NAME === 'string' &&
+    import.meta.env.VITE_CODESPACE_NAME.trim().length > 0
+      ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/users/`
+      : '/api/users/';
 
   useEffect(() => {
     fetchList(endpoint, 'users')
