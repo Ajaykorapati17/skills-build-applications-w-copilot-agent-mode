@@ -19,10 +19,10 @@ const PORT = Number(process.env.PORT) || 8000;
 const CODESPACE_NAME = process.env.CODESPACE_NAME;
 
 const apiUrl = CODESPACE_NAME
-  ? `https://${CODESPACE_NAME}-8000.githubpreview.dev`
+  ? `https://${CODESPACE_NAME}-8000.app.github.dev`
   : `http://localhost:${PORT}`;
 
-const allowedOrigins = [apiUrl, 'http://localhost:5173'];
+const allowedOrigins = [apiUrl, `http://localhost:${PORT}`, 'http://localhost:5173'];
 
 app.use(cors({
   origin: (origin, callback) => {
