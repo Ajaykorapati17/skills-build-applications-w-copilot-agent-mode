@@ -5,9 +5,10 @@ const Activities = () => {
   const [activities, setActivities] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const endpoint = '/api/activities/';
 
   useEffect(() => {
-    fetchList('/api/activities/', 'activities')
+    fetchList(endpoint, 'activities')
       .then(setActivities)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

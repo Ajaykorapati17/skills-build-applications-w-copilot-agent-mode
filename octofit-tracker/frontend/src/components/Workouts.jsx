@@ -5,9 +5,10 @@ const Workouts = () => {
   const [workouts, setWorkouts] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const endpoint = '/api/workouts/';
 
   useEffect(() => {
-    fetchList('/api/workouts/', 'workouts')
+    fetchList(endpoint, 'workouts')
       .then(setWorkouts)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

@@ -5,9 +5,10 @@ const Leaderboard = () => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const endpoint = '/api/leaderboard/';
 
   useEffect(() => {
-    fetchList('/api/leaderboard/', 'leaderboard')
+    fetchList(endpoint, 'leaderboard')
       .then(setItems)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
