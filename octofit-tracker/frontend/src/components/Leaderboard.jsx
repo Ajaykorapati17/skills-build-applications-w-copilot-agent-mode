@@ -7,7 +7,7 @@ const Leaderboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchList('/api/leaderboard', 'leaderboard')
+    fetchList('/api/leaderboard/', 'leaderboard')
       .then(setItems)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

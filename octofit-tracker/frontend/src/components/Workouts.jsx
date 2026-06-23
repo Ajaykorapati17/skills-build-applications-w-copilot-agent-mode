@@ -7,7 +7,7 @@ const Workouts = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchList('/api/workouts', 'workouts')
+    fetchList('/api/workouts/', 'workouts')
       .then(setWorkouts)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
