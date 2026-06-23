@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-// Import models
+// Import database connection and models
+import { connectDB } from './config/database';
 import { User } from './models/User';
 import { Team } from './models/Team';
 import { Activity } from './models/Activity';
@@ -17,7 +17,6 @@ app.use(express.json());
 
 const PORT = Number(process.env.PORT) || 8000;
 const CODESPACE_NAME = process.env.CODESPACE_NAME;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
 
 const apiUrl = CODESPACE_NAME
   ? `https://${CODESPACE_NAME}-8000.githubpreview.dev`
@@ -32,17 +31,6 @@ app.use(cors({
     return callback(new Error('Not allowed by CORS'));
   }
 }));
-
-// MongoDB Connection
-const connectDB = async () => {
-  try {
-    await mongoose.connect(MONGODB_URI);
-    console.log('✓ MongoDB connected successfully to octofit_db');
-  } catch (error) {
-    console.error('✗ MongoDB connection error:', error);
-    process.exit(1);
-  }
-};
 
 // Health check endpoint
 app.get('/', (_req: Request, res: Response) => {
@@ -141,10 +129,9 @@ app.post('/api/workouts/', async (req: Request, res: Response) => {
 const startServer = async () => {
   try {
     await connectDB();
-    
+
     app.listen(PORT, () => {
       console.log(`\n🚀 Octofit Tracker Backend running at ${apiUrl}`);
-      console.log(`📊 MongoDB: ${MONGODB_URI}`);
       console.log(`\nAPI Endpoints:`);
       console.log(`  GET  /api/users/`);
       console.log(`  POST /api/users/`);
